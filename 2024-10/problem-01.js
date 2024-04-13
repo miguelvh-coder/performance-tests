@@ -1,29 +1,38 @@
 function waterTrap(height) {
-  let top = Math.max(...height)
-    var glub = 0
-    //revisa por niveles del suelo que puede si hay muros para contener agau
-    for(j=1;j<=top;j++){
-        var c = false
-        var acumulador = 0
-        for(i=0;i<height.length;i++){
-            if(c==true){
-
-                if(height[i]<j){
-                    acumulador++
-                }else{
-                    c = false
-                }
-
-            }
-            if(height[i]>=j){
-                c = true
-                glub += acumulador
-                acumulador = 0
-            }
-            
-        }
+  if (height === null || height.length == 0) {
+        return 0
     }
-    return glub
+    
+    let izq = 0
+    let der = height.length - 1
+    
+    let izq_max = 0
+    let der_max = 0
+    
+    let water = 0
+
+    while (izq < der) {
+        //se va cerrando el rango en el que se revisa el terreno
+        if (height[izq] < height[der]) {
+            if (height[izq] >= izq_max) {
+                izq_max = height[izq]
+            } else {
+                water += izq_max - height[izq]
+            }
+            izq++
+        } else {
+            
+            if (height[der] >= der_max) {
+                der_max = height[der]
+            } else {
+                water += der_max - height[der]
+            }
+            der--
+        }
+
+    }
+
+    return water
 };
 
 module.exports = { waterTrap };
